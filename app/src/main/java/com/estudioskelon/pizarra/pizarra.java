@@ -8,6 +8,6 @@ public class pizarra extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pizarra);
+         setContentView(R.layout.activity_pizarra);
     }
 }
