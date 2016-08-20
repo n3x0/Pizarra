@@ -1,9 +1,11 @@
-package com.estudioskelon.pizarra;
+package com.estudioskelon.pizarra.activities.pizarra;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class pizarra extends AppCompatActivity {
+import com.estudioskelon.pizarra.R;
+
+public class PRSpizarra extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
