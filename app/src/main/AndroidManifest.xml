@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.pizarra.PRSpizarra"
+        <activity android:name=".activities.pizarra.PizarraP"
             android:screenOrientation="landscape">
 
         </activity>

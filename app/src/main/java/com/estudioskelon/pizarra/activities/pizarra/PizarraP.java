@@ -1,11 +1,15 @@
 package com.estudioskelon.pizarra.activities.pizarra;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.estudioskelon.pizarra.R;
 
-public class PRSpizarra extends AppCompatActivity {
+public class PizarraP extends Activity {
+
+    private PizarraM model;
+    private PizarraV view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
