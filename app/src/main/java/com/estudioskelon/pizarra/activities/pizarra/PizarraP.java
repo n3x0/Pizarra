@@ -1,136 +1,64 @@
 package com.estudioskelon.pizarra.activities.pizarra;
 
-import android.app.Activity;
-import android.content.ClipData;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import com.estudioskelon.pizarra.tipos.contenedores.Campo;
+import com.estudioskelon.pizarra.tipos.figuras.Ficha;
 
-import com.estudioskelon.pizarra.R;
-import com.estudioskelon.pizarra.Utils;
+/**
+ * Created by Nexo on 01/09/2016.
+ * El presentador debe ser responsable de:
+ * Loading models
+ * Keeping a reference to the model, and the state of the view
+ * Formatting what should be displayed, and instructing the View to display it
+ * Interacting with the repositories (database, network, etc.)
+ * Deciding the actions to take when input events are received
+ *
+ * Las operaciones deben ser:
+ *      ACCION          PREFIJO
+ * Añadir un objeto     add
+ * Guardar un objeto    save
+ * Volver de callback   back
+ */
+public class PizarraP implements IPizarra {
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTouch;
-
-public class PizarraP extends Activity implements View.OnTouchListener, View.OnDragListener {
-
-    private Context ctx;
-
-    private PizarraM model;
     private PizarraV view;
+    private PizarraM model;
 
-    //Butterknife views
-    @BindView(R.id.rojo)
-    ImageView rojo;
-    @BindView(R.id.naranja)
-    ImageView naranja;
-    @BindView(R.id.campo)
-    RelativeLayout campo;
+    public PizarraP(PizarraV pizarraV) {
+        view = pizarraV;
+        model = new PizarraM(this);
 
-    //modelo
-    private ArrayList<View> vistas;
+    }
+
+    public void addFicha() {
+        //Habría que comprobar si se puede añadir la ficha
+        view.showAddFichaLoading();
+        model.addFicha();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pizarra);
-        ctx = this;
-        ButterKnife.bind(this);
-        vistas = new ArrayList<>();
-        campo.setOnDragListener(this);
-        Log.v("LOL", "LOL");
-    }
-
-    @OnClick({R.id.rojo, R.id.naranja})
-    public void click(View view) {
-        ImageView iv = new ImageView(ctx);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(40, 40);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        iv.setBackgroundColor(Color.BLACK);
-        iv.setVisibility(View.VISIBLE);
-        iv.requestLayout();
-        //De momento vamos a taggear las vistas que creemos como fichas para poder moverlas
-        iv.setTag("ficha");
-        params.leftMargin = Utils.rand(400, 0);
-        params.topMargin = Utils.rand(700, 0);
-
-        campo.addView(iv, params);
-        campo.requestLayout();
-
-        iv.setOnTouchListener(this);
-        Utils.log(true, "LOL", "Ahora tenemos " + vistas.size() + " vistas");
-    }
-
-    @OnClick(R.id.campo)
-    public void cambioColor(RelativeLayout rl) {
-        rl.setBackgroundColor(0x00FF0000);
-        Log.v("LAL", "LAL");
-    }
-
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (view.getTag().equals("ficha")) {
-            //Es una ficha tiene que poder moverse por el terreno
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
-                return true;
-            } else {
-                return false;
-            }
+    public void backAddFicha(Ficha ficha) {
+        view.hideAddFichaLoading();
+        if (ficha == null){
+            view.failedAddFicha();
+        }else{
+            view.updateFicha(ficha);
         }
-        return false;
+    }
+
+    public void saveCampo() {
+        view.showSaveCampoLoading();
+        model.saveCampo();
     }
 
     @Override
-    public boolean onDrag(View v, DragEvent event) {
-        int action = event.getAction();
-        switch (event.getAction()) {
-            case DragEvent.ACTION_DRAG_STARTED:
-                // do nothing
-                break;
-            case DragEvent.ACTION_DRAG_ENTERED:
-                v.setBackgroundColor(Color.CYAN);
-                break;
-            case DragEvent.ACTION_DRAG_EXITED:
-                v.setBackgroundColor(Color.GREEN);
-                break;
-            case DragEvent.ACTION_DROP:
-                // Dropped, reassign View to ViewGroup
-                View view = (View) event.getLocalState();
-                ViewGroup owner = (ViewGroup) view.getParent();
-                owner.removeView(view);
-                RelativeLayout container = (RelativeLayout) v;
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(40, 40);
-                params.leftMargin = (int)event.getX()-20;
-                params.topMargin = (int)event.getY()-20;
-                container.addView(view, params);
-                view.setVisibility(View.VISIBLE);
-                Utils.log(true, this.getLocalClassName(), "Drag hasta " + event.getX() + ","+ event.getY());
-                break;
-            case DragEvent.ACTION_DRAG_ENDED:
-                v.setBackgroundColor(Color.GREEN);
-            default:
-                break;
+    public void backSaveCampo(Campo campo) {
+        view.hideSaveCampoLoading();
+        if (campo == null){
+            view.failSaveCampo();
+        }else{
+            view.updateCampo(campo);
         }
-        return true;
     }
+
+
 }
