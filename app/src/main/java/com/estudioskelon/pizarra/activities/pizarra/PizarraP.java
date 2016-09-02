@@ -41,7 +41,7 @@ public class PizarraP implements IPizarra {
         if (ficha == null){
             view.failedAddFicha();
         }else{
-            view.updateFicha(ficha);
+            view.addFicha(ficha);
         }
     }
 

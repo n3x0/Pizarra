@@ -18,10 +18,11 @@ public class PizarraM {
 
     public void addFicha() {
         Ficha ficha = new Ficha();
-        if (campo.addFicha(ficha))
+        if (campo.addFicha(ficha)) {
             presenter.backAddFicha(ficha);
-        else
+        } else {
             presenter.backAddFicha(null);
+        }
     }
 
     public void saveCampo() {

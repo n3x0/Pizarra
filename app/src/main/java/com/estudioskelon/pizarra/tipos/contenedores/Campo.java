@@ -1,5 +1,6 @@
 package com.estudioskelon.pizarra.tipos.contenedores;
 
+import com.estudioskelon.pizarra.Utils;
 import com.estudioskelon.pizarra.tipos.figuras.Ficha;
 
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.HashMap;
  * Created by Nexo on 30/08/2016.
  */
 public class Campo {
+    private static final String TAG = "Campo";
+
     private enum Tipo {futbol, futbito, baloncesto, hockey, rugby, balonmano};
 
     private HashMap<String, Ficha> fichas;
@@ -27,9 +30,16 @@ public class Campo {
     }
 
     public boolean addFicha(Ficha ficha){
-        if (fichas.put(ficha.getNumero(), ficha)!=null)
+        Utils.log(true, TAG, "Vamos a añadir la ficha: " + ficha);
+        fichas.put(ficha.getId()+"", ficha);
+        Ficha ficha2 = fichas.get(ficha.getId()+"");
+        if (ficha.equals(ficha2)) {
+            Utils.log(true, TAG, "Ficha " + ficha + " añadida correctamente.");
+            Utils.log(true, TAG, "El campo ahora es: " + fichas.toString());
             return true;
-        else
+        } else {
+            Utils.log(true, TAG, "Ficha " + ficha + " no se ha añadido correctamente.");
             return false;
+        }
     }
 }

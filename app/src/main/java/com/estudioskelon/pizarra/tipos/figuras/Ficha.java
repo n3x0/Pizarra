@@ -5,6 +5,9 @@ import android.util.Pair;
 
 import com.estudioskelon.pizarra.Utils;
 
+import java.util.Arrays;
+import java.util.Random;
+
 /**
  * Created by Nexo on 25/08/2016.
  */
@@ -18,12 +21,17 @@ public class Ficha {
     private String numero;
 
     public Ficha(){
-        id = Utils.rand(0,100);
-        color = Color.GREEN;
+        Random rnd = new Random();
+        id = Utils.rand(1,100);
+        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         tipo = Tipo.jugador;
-        pos = new Pair<>(0,0);
-        numero = "0";
+        pos = new Pair<>(rnd.nextInt(600), rnd.nextInt(976));
+        numero = rnd.nextInt(100)+"";
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public int getColor() {
         return color;
@@ -55,5 +63,27 @@ public class Ficha {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    @Override
+    public String toString() {
+        return "Ficha{" +
+                "id=" + id +
+                ", color=" + color +
+                ", tipo=" + tipo +
+                ", pos=" + pos.first + "," + pos.second +
+                ", numero='" + numero + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean equals = false;
+        if (obj instanceof Ficha){
+            if (((Ficha) obj).getId() == this.id){
+                equals = true;
+            }
+        }
+        return equals;
     }
 }
