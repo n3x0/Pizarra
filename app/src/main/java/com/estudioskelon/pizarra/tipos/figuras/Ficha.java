@@ -27,7 +27,7 @@ public class Ficha {
         tipo = Tipo.jugador;
         pos = new Pair<>(rnd.nextInt(600), rnd.nextInt(976));
         numero = rnd.nextInt(100)+"";
-    }
+    }    
 
     public int getId() {return id;}
 
