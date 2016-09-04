@@ -18,6 +18,7 @@ import com.estudioskelon.pizarra.tipos.figuras.Ficha;
  * Guardar un objeto    save
  * Volver de callback   back
  */
+
 public class PizarraP implements IPizarra {
 
     private PizarraV view;
