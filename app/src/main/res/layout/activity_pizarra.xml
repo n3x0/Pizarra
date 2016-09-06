@@ -21,6 +21,12 @@
             android:layout_height="wrap_content"
             android:text="guardar"
             android:id="@+id/bTGuardar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cargar"
+            android:id="@+id/bTCargar" />
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/campo"

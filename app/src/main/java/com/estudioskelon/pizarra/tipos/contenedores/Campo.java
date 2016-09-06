@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Campo {
     private static final String TAG = "Campo";
 
-    private enum Tipo {futbol, futbito, baloncesto, hockey, rugby, balonmano};
+    public enum Tipo {futbol, futbito, baloncesto, hockey, rugby, balonmano};
 
     private HashMap<String, Ficha> fichas;
     private Tipo tipo;
@@ -29,6 +29,30 @@ public class Campo {
         this.medio = medio;
     }
 
+    public HashMap<String, Ficha> getFichas() {
+        return fichas;
+    }
+
+    public void setFichas(HashMap<String, Ficha> fichas) {
+        this.fichas = fichas;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isMedio() {
+        return medio;
+    }
+
+    public void setMedio(boolean medio) {
+        this.medio = medio;
+    }
+
     public boolean addFicha(Ficha ficha){
         Utils.log(true, TAG, "Vamos a añadir la ficha: " + ficha);
         fichas.put(ficha.getId()+"", ficha);
@@ -41,5 +65,14 @@ public class Campo {
             Utils.log(true, TAG, "Ficha " + ficha + " no se ha añadido correctamente.");
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Campo{" +
+                "fichas=" + fichas +
+                ", tipo=" + tipo +
+                ", medio=" + medio +
+                '}';
     }
 }

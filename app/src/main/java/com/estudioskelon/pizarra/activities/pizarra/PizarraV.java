@@ -13,6 +13,12 @@ import com.estudioskelon.pizarra.Utils;
 import com.estudioskelon.pizarra.tipos.contenedores.Campo;
 import com.estudioskelon.pizarra.tipos.figuras.Ficha;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import static com.estudioskelon.pizarra.tipos.contenedores.Campo.Tipo.futbol;
+
 /**
  * Created by Nexo on 01/09/2016.
  * La vista debe ser responsable de:
@@ -29,11 +35,13 @@ public class PizarraV extends Activity implements View.OnClickListener {
     private static final String TAG = "PizarraV";
 
     private Button bTGuardar;
+    private Button bTCargar;
     private View vTRojo;
     private View vTNaranja;
     private RelativeLayout rLCampo;
 
     private PizarraP presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +60,22 @@ public class PizarraV extends Activity implements View.OnClickListener {
         vTNaranja = (View) findViewById(R.id.naranja);
         vTNaranja.setOnClickListener(this);
         rLCampo = (RelativeLayout) findViewById(R.id.campo);
+        bTCargar = (Button) findViewById(R.id.bTCargar);
+        bTCargar.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bTGuardar:
-                presenter.saveCampo();
+                presenter.saveCampo(this);
                 break;
             case R.id.rojo:
             case R.id.naranja:
                 presenter.addFicha();
+                break;
+            case R.id.bTCargar:
+                presenter.loadCampo(this);
                 break;
             default:break;
         }
@@ -93,7 +106,7 @@ public class PizarraV extends Activity implements View.OnClickListener {
 
     public void updateFicha(Ficha ficha) {
         if (ficha != null){
-
+            Utils.log(true, TAG, "Actualizando ficha");
         }else{
             Utils.log(true, TAG, "Error al actualizar ficha");
         }
@@ -121,5 +134,47 @@ public class PizarraV extends Activity implements View.OnClickListener {
     public void failSaveCampo() {
         Utils.log(true, TAG, "Error al intentar guardar el campo");
 
+    }
+
+    public void showLoadCampoLoading() {
+        Utils.log(true, TAG, "Mostrando la pantalla de carga de los campos guardados");
+    }
+
+    public void hideLoadCampoLoading() {
+        Utils.log(true, TAG, "Ocultando la pantalla de carga de los campos");
+    }
+
+    public void failedLoadCampo() {
+        Utils.log(true, TAG, "Error al intentar cargar un campo");
+    }
+
+    public void loadCampo(Campo campo) {
+        loadSurface(campo);
+        loadPallete(campo);
+        loadPieces(campo);
+    }
+
+    private void loadPieces(Campo campo) {
+        HashMap fichas = campo.getFichas();
+        for (Ficha ficha : campo.getFichas().values()){
+            addFicha(ficha);
+            Utils.log(true, TAG, ficha.toString());
+        }
+    }
+
+    private void loadPallete(Campo campo) {
+        Utils.log(true, TAG, "Cargando paleta de herramientas");
+    }
+
+    private void loadSurface(Campo campo) {
+        switch(campo.getTipo()){
+            case futbol:
+                rLCampo.setBackgroundColor(Color.GREEN);
+                break;
+            default:
+                rLCampo.setBackgroundColor(Color.RED);
+                break;
+
+        }
     }
 }

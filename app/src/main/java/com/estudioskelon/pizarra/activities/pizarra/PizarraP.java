@@ -1,5 +1,7 @@
 package com.estudioskelon.pizarra.activities.pizarra;
 
+import android.content.Context;
+
 import com.estudioskelon.pizarra.tipos.contenedores.Campo;
 import com.estudioskelon.pizarra.tipos.figuras.Ficha;
 
@@ -18,7 +20,6 @@ import com.estudioskelon.pizarra.tipos.figuras.Ficha;
  * Guardar un objeto    save
  * Volver de callback   back
  */
-
 public class PizarraP implements IPizarra {
 
     private PizarraV view;
@@ -46,9 +47,9 @@ public class PizarraP implements IPizarra {
         }
     }
 
-    public void saveCampo() {
+    public void saveCampo(Context ctx) {
         view.showSaveCampoLoading();
-        model.saveCampo();
+        model.saveCampo(ctx);
     }
 
     @Override
@@ -62,4 +63,17 @@ public class PizarraP implements IPizarra {
     }
 
 
+    public void loadCampo(Context ctx) {
+        view.showLoadCampoLoading();
+        model.loadCampo(ctx);
+    }
+
+    public void backLoadCampo(Campo campo) {
+        view.hideLoadCampoLoading();
+        if (campo == null){
+            view.failedLoadCampo();
+        }else{
+            view.loadCampo(campo);
+        }
+    }
 }

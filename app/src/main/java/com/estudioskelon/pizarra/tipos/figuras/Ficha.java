@@ -5,20 +5,19 @@ import android.util.Pair;
 
 import com.estudioskelon.pizarra.Utils;
 
-import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Created by Nexo on 25/08/2016.
  */
 public class Ficha {
-    private enum Tipo {jugador, pelota, bandera, equis};
+    public enum Tipo {jugador, pelota, bandera, equis};
 
     private int id;
     private int color; //Será reemplazado en el futuro supongo por un drawable o algo así
     private Tipo tipo;
     private Pair<Integer, Integer> pos;
-    private String numero;
+    private String dorsal;
 
     public Ficha(){
         Random rnd = new Random();
@@ -26,8 +25,8 @@ public class Ficha {
         color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         tipo = Tipo.jugador;
         pos = new Pair<>(rnd.nextInt(600), rnd.nextInt(976));
-        numero = rnd.nextInt(100)+"";
-    }    
+        dorsal = rnd.nextInt(100)+"";
+    }
 
     public int getId() {return id;}
 
@@ -57,12 +56,12 @@ public class Ficha {
         this.pos = pos;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getDorsal() {
+        return dorsal;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setDorsal(String dorsal) {
+        this.dorsal = dorsal;
     }
 
     @Override
@@ -72,7 +71,7 @@ public class Ficha {
                 ", color=" + color +
                 ", tipo=" + tipo +
                 ", pos=" + pos.first + "," + pos.second +
-                ", numero='" + numero + '\'' +
+                ", dorsal='" + dorsal + '\'' +
                 '}';
     }
 
