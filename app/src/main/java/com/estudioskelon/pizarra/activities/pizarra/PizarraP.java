@@ -67,7 +67,7 @@ public class PizarraP implements IPizarra {
         view.showLoadCampoLoading();
         model.loadCampo(ctx);
     }
-
+ 
     public void backLoadCampo(Campo campo) {
         view.hideLoadCampoLoading();
         if (campo == null){
